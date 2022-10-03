@@ -26,6 +26,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Login from './scr/views/login/Login';
 import FireBaseTest from './views/FireBaseTest';
 
 const Section: React.FC<
@@ -67,8 +68,9 @@ const App = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <FireBaseTest />
+      <Login />
       {/*<StatusBar
+      <FireBaseTest />
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
