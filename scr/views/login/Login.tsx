@@ -1,19 +1,54 @@
 import React from 'react';
-import {Button, SafeAreaView, Text, View} from 'react-native';
+import {
+  Button,
+  SafeAreaView,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import StylesLogin from './StylesLogin';
 
 const Login = () => {
   return (
-    <SafeAreaView style={StylesLogin.sectionContainer}>
-      <Text>Health Pet</Text>
-      <View style={StylesLogin.btn}>
-        <Button
-          title="Iniciar Sesión"
-          color={'#095256'}
-          onPress={() => console.log('text login')}
-        />
+    <View style={StylesLogin.sectionContainer}>
+      <View style={StylesLogin.titleContainer}>
+        <Text style={[StylesLogin.title, StylesLogin.btnText]}>Health Pet</Text>
       </View>
-    </SafeAreaView>
+      <View style={StylesLogin.inputContainer}>
+        <View style={StylesLogin.inputField}>
+          <Text style={StylesLogin.titleInput}>Correo electronico</Text>
+          <TextInput
+            style={StylesLogin.input}
+            placeholder="Correo electronico"
+          />
+        </View>
+        <View style={StylesLogin.inputField}>
+          <Text style={StylesLogin.titleInput}>Contraseña</Text>
+          <TextInput
+            style={StylesLogin.input}
+            placeholder="Contraseña"
+            secureTextEntry
+          />
+        </View>
+        <View style={StylesLogin.btnConteiner}>
+          <TouchableOpacity
+            style={StylesLogin.btn}
+            onPress={() => console.log('login')}>
+            <Text style={StylesLogin.btnText}>Iniciar Sesión</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={StylesLogin.inputContainer}>
+          <TouchableOpacity
+            onPress={() => console.log('login')}>
+            <Text style={StylesLogin.btnLink}>¿No tienes cuenta?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('login')}>
+            <Text style={StylesLogin.btnLink}>¿Olvidaste tu contraseña?</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
   );
 };
 
