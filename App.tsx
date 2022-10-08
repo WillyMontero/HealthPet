@@ -26,6 +26,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import NavigationButton from './scr/components/NavigationButton';
 import Login from './scr/views/login/Login';
 import FireBaseTest from './views/FireBaseTest';
 
@@ -67,8 +68,10 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Login />
+    <NavigationButton />
+    /*<SafeAreaView style={backgroundStyle}>
+
+      
       {/*<StatusBar
       <FireBaseTest />
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
@@ -97,8 +100,8 @@ const App = () => {
           </Section>
           <LearnMoreLinks />
         </View>
-        </ScrollView>*/}
-    </SafeAreaView>
+        </ScrollView>*/
+    //</SafeAreaView>
   );
 };
 
