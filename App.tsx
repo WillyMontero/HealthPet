@@ -67,9 +67,7 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  return (
-    <NavigationButton />
-  );
+  return <Login />;
 };
 
 const styles = StyleSheet.create({

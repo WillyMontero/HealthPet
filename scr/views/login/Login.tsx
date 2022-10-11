@@ -1,15 +1,30 @@
-import React from 'react';
-import {
-  Button,
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, TouchableOpacity, TextInput} from 'react-native';
+import {User as useFirebase} from '../../firebase';
 import StylesLogin from './StylesLogin';
 
 const Login = () => {
+  const [values, setValues] = useState({user: '', password: ''});
+  const {user, password} = values;
+  const {addNewUser, checkUserData} = useFirebase();
+
+  const onChangeUser = (value: string) => {
+    setValues(prev => ({...prev, user: value}));
+  };
+
+  const onChangePassword = (value: string) => {
+    setValues(prev => ({...prev, password: value}));
+  };
+
+  const login = async () => {
+    const response = await checkUserData(user, password);
+    if (response) {
+      console.log(response);
+    } else {
+      console.log('No user');
+    }
+  };
+
   return (
     <View style={StylesLogin.sectionContainer}>
       <View style={StylesLogin.titleContainer}>
@@ -21,6 +36,8 @@ const Login = () => {
           <TextInput
             style={StylesLogin.input}
             placeholder="Correo electronico"
+            value={user}
+            onChangeText={text => onChangeUser(text)}
           />
         </View>
         <View style={StylesLogin.inputField}>
@@ -28,19 +45,18 @@ const Login = () => {
           <TextInput
             style={StylesLogin.input}
             placeholder="Contraseña"
+            value={password}
+            onChangeText={text => onChangePassword(text)}
             secureTextEntry
           />
         </View>
         <View style={StylesLogin.btnConteiner}>
-          <TouchableOpacity
-            style={StylesLogin.btn}
-            onPress={() => console.log('login')}>
+          <TouchableOpacity style={StylesLogin.btn} onPress={() => login()}>
             <Text style={StylesLogin.btnText}>Iniciar Sesión</Text>
           </TouchableOpacity>
         </View>
         <View style={StylesLogin.inputContainer}>
-          <TouchableOpacity
-            onPress={() => console.log('login')}>
+          <TouchableOpacity onPress={() => console.log('login')}>
             <Text style={StylesLogin.btnLink}>¿No tienes cuenta?</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('login')}>
