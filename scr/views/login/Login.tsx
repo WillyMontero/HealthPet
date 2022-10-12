@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Text, View, TouchableOpacity, TextInput} from 'react-native';
+import {UserContext} from '../../context/UserContext';
 import {User as useFirebase} from '../../firebase';
 import StylesLogin from './StylesLogin';
 
 const Login = () => {
+  const {setIsLogged} = useContext(UserContext);
   const [values, setValues] = useState({user: '', password: ''});
   const {user, password} = values;
   const {addNewUser, checkUserData} = useFirebase();
@@ -20,6 +22,7 @@ const Login = () => {
     const response = await checkUserData(user, password);
     if (response) {
       console.log(response);
+      setIsLogged(true);
     } else {
       console.log('No user');
     }
