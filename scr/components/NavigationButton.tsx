@@ -1,5 +1,4 @@
 import React from 'react';
-import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 import {ArrowUpCircle, Image, Airplay, Award} from 'react-native-feather';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';

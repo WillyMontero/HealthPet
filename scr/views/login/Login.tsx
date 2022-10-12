@@ -1,15 +1,10 @@
-import React from 'react';
-import {
-  Button,
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import React, {useContext} from 'react';
+import {Text, View, TouchableOpacity, TextInput} from 'react-native';
+import {UserContext} from '../../context/UserContext';
 import StylesLogin from './StylesLogin';
 
 const Login = () => {
+  const {setIsLogged} = useContext(UserContext);
   return (
     <View style={StylesLogin.sectionContainer}>
       <View style={StylesLogin.titleContainer}>
@@ -34,13 +29,12 @@ const Login = () => {
         <View style={StylesLogin.btnConteiner}>
           <TouchableOpacity
             style={StylesLogin.btn}
-            onPress={() => console.log('login')}>
+            onPress={() => setIsLogged(true)}>
             <Text style={StylesLogin.btnText}>Iniciar Sesión</Text>
           </TouchableOpacity>
         </View>
         <View style={StylesLogin.inputContainer}>
-          <TouchableOpacity
-            onPress={() => console.log('login')}>
+          <TouchableOpacity onPress={() => console.log('login')}>
             <Text style={StylesLogin.btnLink}>¿No tienes cuenta?</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('login')}>
