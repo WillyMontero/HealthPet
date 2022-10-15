@@ -1,8 +1,14 @@
-interface User {
-  name: String;
-  surname: String;
-  email: String;
-  password: String;
+export interface User {
+  id: string;
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
 }
 
-export default User;
+export interface InputUser {
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
+}

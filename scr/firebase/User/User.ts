@@ -1,10 +1,10 @@
 import firestore from '@react-native-firebase/firestore';
-import {User as UserType} from '../../interface';
+import {InputUser, User as TypeUser} from '../../interface';
 
 const User = () => {
   const userRef = firestore().collection('User');
 
-  const addNewUser = (user: UserType) => {
+  const addNewUser = (user: InputUser) => {
     try {
       userRef.add(user).then(response => {
         return true;
@@ -13,6 +13,9 @@ const User = () => {
       return false;
     }
   };
+
+  const updateUser = async (dataUser: TypeUser) =>
+    await userRef.doc(dataUser.id).set(dataUser);
 
   const checkUserData = (email: string, password: string) => {
     return userRef
@@ -36,6 +39,7 @@ const User = () => {
     addNewUser,
     checkUserData,
     checkIfEmailExists,
+    updateUser,
   };
 };
 
