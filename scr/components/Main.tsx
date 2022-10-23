@@ -12,8 +12,7 @@ const Main = () => {
     <>
       <NativeRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<NavigationButton />} />
+          <Route path="/" element={<NavigationButton />} />
           <Route path="/register" element={<Register />} />
         </Routes>
       </NativeRouter>

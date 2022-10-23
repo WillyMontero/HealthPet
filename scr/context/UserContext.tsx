@@ -14,7 +14,7 @@ const initialState = {
 const UserContext = createContext<IUser>(initialState);
 
 const UserProvider = (props: any) => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const values = {isLogged, setIsLogged};
 
   return (
