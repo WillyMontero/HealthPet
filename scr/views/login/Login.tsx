@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {Text, View, TouchableOpacity, TextInput} from 'react-native';
 import {UserContext} from '../../context/UserContext';
-import {User as useFirebase} from '../../firebase';
+import {User as userFirebase} from '../../firebase';
 import {useNavigate} from 'react-router-native';
 import StylesLogin from './StylesLogin';
 
@@ -9,7 +9,7 @@ const Login = () => {
   const {setIsLogged} = useContext(UserContext);
   const [values, setValues] = useState({user: '', password: ''});
   const {user, password} = values;
-  const {checkUserData} = useFirebase();
+  const {checkUserData} = userFirebase();
   const navigate = useNavigate();
 
   const onChangeUser = (value: string) => {
@@ -61,7 +61,7 @@ const Login = () => {
           </TouchableOpacity>
         </View>
         <View style={StylesLogin.inputContainer}>
-          <TouchableOpacity onPress={() => console.log('login')}>
+          <TouchableOpacity onPress={() => navigate('/Register')}>
             <Text style={StylesLogin.btnLink}>¿No tienes cuenta?</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('login')}>

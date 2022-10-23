@@ -4,7 +4,7 @@ import NavigationButton from './NavigationButton';
 import Login from '../views/login/Login';
 import {UserContext} from '../context/UserContext';
 import {NativeRouter, Route, Routes} from 'react-router-native';
-import Register from '../views/register/register';
+import Register from '../views/register/Register';
 
 const Main = () => {
   const {isLogged} = React.useContext(UserContext);

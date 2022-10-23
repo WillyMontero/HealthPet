@@ -4,9 +4,9 @@ import {InputUser, User as TypeUser} from '../../interface';
 const User = () => {
   const userRef = firestore().collection('User');
 
-  const addNewUser = (user: InputUser) => {
+  const addNewUser = async (user: InputUser) => {
     try {
-      userRef.add(user).then(response => {
+      return userRef.add(user).then(response => {
         return true;
       });
     } catch (error) {
