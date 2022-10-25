@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity, TextInput} from 'react-native';
+import Toast from 'react-native-toast-message';
 import {UserContext} from '../../context/UserContext';
 import {User as userFirebase} from '../../firebase';
 import {useNavigate} from 'react-router-native';
@@ -26,7 +27,11 @@ const Login = () => {
       setIsLogged(true);
       navigate('/home');
     } else {
-      console.log('No user');
+      Toast.show({
+        type: 'error',
+        text1: 'Login',
+        text2: 'El usuario o la contraseña no coinciden. 😞',
+      });
     }
   };
 

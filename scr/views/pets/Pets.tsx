@@ -6,8 +6,7 @@ const Pets = () => {
     <View
       style={{
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'flex-start',
         backgroundColor: 'red',
       }}>
       <Text style={{fontSize: 26, fontWeight: 'bold'}}>Pets Screen</Text>

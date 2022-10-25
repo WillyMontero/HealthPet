@@ -9,11 +9,17 @@
  */
 
 import React from 'react';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import Main from './scr/components/Main';
 import {UserProvider} from './scr/context/UserContext';
 
 const App = () => {
-  return <UserProvider>{<Main />}</UserProvider>;
+  return (
+    <>
+      <UserProvider>{<Main />}</UserProvider>
+      <Toast />
+    </>
+  );
 };
 
 export default App;
