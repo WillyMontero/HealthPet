@@ -13,13 +13,8 @@ const Login = () => {
   const {checkUserData} = userFirebase();
   const navigate = useNavigate();
 
-  const onChangeUser = (value: string) => {
-    setValues(prev => ({...prev, user: value}));
-  };
-
-  const onChangePassword = (value: string) => {
-    setValues(prev => ({...prev, password: value}));
-  };
+  const onChange = (value: string, name: string) =>
+    setValues(prev => ({...prev, [name]: value}));
 
   const login = async () => {
     const response = await checkUserData(user, password);
@@ -47,7 +42,7 @@ const Login = () => {
             style={StylesLogin.input}
             placeholder="Correo electronico"
             value={user}
-            onChangeText={text => onChangeUser(text)}
+            onChangeText={text => onChange(text, 'user')}
           />
         </View>
         <View style={StylesLogin.inputField}>
@@ -56,7 +51,7 @@ const Login = () => {
             style={StylesLogin.input}
             placeholder="Contraseña"
             value={password}
-            onChangeText={text => onChangePassword(text)}
+            onChangeText={text => onChange(text, 'password')}
             secureTextEntry
           />
         </View>

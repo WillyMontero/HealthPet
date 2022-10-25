@@ -19,21 +19,8 @@ const Register = () => {
   const {addNewUser} = userFirebase();
   const navigate = useNavigate();
 
-  const onChangeName = (value: string) => {
-    setValues(prev => ({...prev, name: value}));
-  };
-  const onChangeSurname = (value: string) => {
-    setValues(prev => ({...prev, surname: value}));
-  };
-  const onChangeEmail = (value: string) => {
-    setValues(prev => ({...prev, email: value}));
-  };
-  const onChangePassword = (value: string) => {
-    setValues(prev => ({...prev, password: value}));
-  };
-  const onChangeConfirmPassword = (value: string) => {
-    setValues(prev => ({...prev, confirmPassword: value}));
-  };
+  const onChange = (value: string, name: string) =>
+    setValues(prev => ({...prev, [name]: value}));
 
   const handleRegister = async () => {
     const empty = isEmpty();
@@ -92,7 +79,7 @@ const Register = () => {
             style={StylesRegister.input}
             placeholder="Nombre"
             value={name}
-            onChangeText={text => onChangeName(text)}
+            onChangeText={text => onChange(text, 'name')}
           />
         </View>
 
@@ -102,7 +89,7 @@ const Register = () => {
             style={StylesRegister.input}
             placeholder="Apellidos"
             value={surname}
-            onChangeText={text => onChangeSurname(text)}
+            onChangeText={text => onChange(text, 'surname')}
           />
         </View>
 
@@ -112,7 +99,7 @@ const Register = () => {
             style={StylesRegister.input}
             placeholder="Correo electronico"
             value={email}
-            onChangeText={text => onChangeEmail(text)}
+            onChangeText={text => onChange(text, 'email')}
           />
         </View>
 
@@ -122,7 +109,7 @@ const Register = () => {
             style={StylesRegister.input}
             placeholder="Contraseña"
             value={password}
-            onChangeText={text => onChangePassword(text)}
+            onChangeText={text => onChange(text, 'password')}
             secureTextEntry
           />
         </View>
@@ -133,7 +120,7 @@ const Register = () => {
             style={StylesRegister.input}
             placeholder="Confirmar contraseña"
             value={confirmPassword}
-            onChangeText={text => onChangeConfirmPassword(text)}
+            onChangeText={text => onChange(text, 'confirmPassword')}
             secureTextEntry
           />
         </View>
