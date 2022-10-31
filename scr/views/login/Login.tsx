@@ -61,7 +61,7 @@ const Login = () => {
           </TouchableOpacity>
         </View>
         <View style={StylesLogin.inputContainer}>
-          <TouchableOpacity onPress={() => navigate('/Register')}>
+          <TouchableOpacity onPress={() => navigate('/register')}>
             <Text style={StylesLogin.btnLink}>¿No tienes cuenta?</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('login')}>
