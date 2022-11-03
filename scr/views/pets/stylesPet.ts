@@ -15,6 +15,12 @@ export default StyleSheet.create({
     minHeight: 150,
     flexDirection: 'row',
   },
+  newItem: {
+    display: 'flex',
+    backgroundColor: 'transparent',
+    minHeight: 150,
+    flexDirection: 'row',
+  },
   itemText: {
     color: '#FFFFFF',
     fontSize: 20,
@@ -56,6 +62,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 10,
+  },
+  btnAdd: {
+    backgroundColor: '#1c1c1c',
+    height: 135,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   containerEditRemove: {
     flexDirection: 'row',

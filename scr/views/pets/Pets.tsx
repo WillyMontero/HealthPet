@@ -7,7 +7,7 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import {Trash2, Edit} from 'react-native-feather';
+import {Trash2, Edit, PlusCircle} from 'react-native-feather';
 import stylesPet from './stylesPet';
 
 const Pets = () => {
@@ -16,9 +16,12 @@ const Pets = () => {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
       title: 'Pipo',
     },
+    {
+      id: 'new',
+    },
   ];
 
-  const Item = ({title}) => (
+  const Item = ({title}: any) => (
     <View style={stylesPet.item}>
       <View style={stylesPet.containerImageItem}>
         <Image
@@ -51,7 +54,23 @@ const Pets = () => {
     </View>
   );
 
-  const renderItem = ({item}) => <Item title={item.title} />;
+  const ItemNew = () => (
+    <View style={stylesPet.newItem}>
+      <TouchableOpacity
+        style={stylesPet.btnAdd}
+        onPress={() => console.log('asd')}>
+        <PlusCircle stroke="white" fill="transparent" />
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderItem = ({item}: any) => {
+    if (item.id !== 'new') {
+      return <Item title={item.title} />;
+    } else {
+      return <ItemNew />;
+    }
+  };
 
   return (
     <SafeAreaView

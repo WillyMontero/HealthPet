@@ -3,6 +3,7 @@ import Toast from 'react-native-toast-message';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {User as userFirebase} from '../../firebase';
 import {useNavigate} from 'react-router-native';
+import {ArrowLeft} from 'react-native-feather';
 import StylesRegister from './stylesRegister';
 
 const Register = () => {
@@ -25,18 +26,30 @@ const Register = () => {
   const handleRegister = async () => {
     const empty = isEmpty();
     if (empty.length > 0) {
-      console.log('Faltan espacios por llenar.');
+      Toast.show({
+        type: 'error',
+        text1: 'Registro',
+        text2: 'Faltan espacios por llenar. 😞',
+      });
       return;
     }
     if (password !== confirmPassword) {
-      console.log('La contraseña no coinciden.');
+      Toast.show({
+        type: 'error',
+        text1: 'Registro',
+        text2: 'La contraseñas no coinciden. 😞',
+      });
       return;
     }
     const newUser = await addNewUser({name, surname, email, password});
-    console.log(newUser);
     if (newUser) {
-      navigate('/');
+      Toast.show({
+        type: 'success',
+        text1: 'Registro',
+        text2: 'Usuario registrado correctamente. ',
+      });
       cleanFields();
+      navigate('/');
     }
   };
 
@@ -71,67 +84,77 @@ const Register = () => {
   };
 
   return (
-    <View style={StylesRegister.sectionContainer}>
-      <View style={StylesRegister.containerInput}>
-        <View style={StylesRegister.inputField}>
-          <Text style={StylesRegister.titleInput}>Nombre:</Text>
-          <TextInput
-            style={StylesRegister.input}
-            placeholder="Nombre"
-            value={name}
-            onChangeText={text => onChange(text, 'name')}
-          />
-        </View>
+    <View style={StylesRegister.iconBackContainer}>
+      <TouchableOpacity
+        style={StylesRegister.iconBack}
+        onPress={() => {
+          cleanFields();
+          navigate('/');
+        }}>
+        <ArrowLeft height={40} width={40} stroke="black" fill="transparent" />
+      </TouchableOpacity>
+      <View style={StylesRegister.sectionContainer}>
+        <View style={StylesRegister.containerInput}>
+          <View style={StylesRegister.inputField}>
+            <Text style={StylesRegister.titleInput}>Nombre:</Text>
+            <TextInput
+              style={StylesRegister.input}
+              placeholder="Nombre"
+              value={name}
+              onChangeText={text => onChange(text, 'name')}
+            />
+          </View>
 
-        <View style={StylesRegister.inputField}>
-          <Text style={StylesRegister.titleInput}>Apellidos:</Text>
-          <TextInput
-            style={StylesRegister.input}
-            placeholder="Apellidos"
-            value={surname}
-            onChangeText={text => onChange(text, 'surname')}
-          />
-        </View>
+          <View style={StylesRegister.inputField}>
+            <Text style={StylesRegister.titleInput}>Apellidos:</Text>
+            <TextInput
+              style={StylesRegister.input}
+              placeholder="Apellidos"
+              value={surname}
+              onChangeText={text => onChange(text, 'surname')}
+            />
+          </View>
 
-        <View style={StylesRegister.inputField}>
-          <Text style={StylesRegister.titleInput}>Correo electronico:</Text>
-          <TextInput
-            style={StylesRegister.input}
-            placeholder="Correo electronico"
-            value={email}
-            onChangeText={text => onChange(text, 'email')}
-          />
-        </View>
+          <View style={StylesRegister.inputField}>
+            <Text style={StylesRegister.titleInput}>Correo electronico:</Text>
+            <TextInput
+              style={StylesRegister.input}
+              placeholder="Correo electronico"
+              value={email}
+              onChangeText={text => onChange(text, 'email')}
+            />
+          </View>
 
-        <View style={StylesRegister.inputField}>
-          <Text style={StylesRegister.titleInput}>Contraseña:</Text>
-          <TextInput
-            style={StylesRegister.input}
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={text => onChange(text, 'password')}
-            secureTextEntry
-          />
-        </View>
+          <View style={StylesRegister.inputField}>
+            <Text style={StylesRegister.titleInput}>Contraseña:</Text>
+            <TextInput
+              style={StylesRegister.input}
+              placeholder="Contraseña"
+              value={password}
+              onChangeText={text => onChange(text, 'password')}
+              secureTextEntry
+            />
+          </View>
 
-        <View style={StylesRegister.inputField}>
-          <Text style={StylesRegister.titleInput}>Confirmar contraseña:</Text>
-          <TextInput
-            style={StylesRegister.input}
-            placeholder="Confirmar contraseña"
-            value={confirmPassword}
-            onChangeText={text => onChange(text, 'confirmPassword')}
-            secureTextEntry
-          />
+          <View style={StylesRegister.inputField}>
+            <Text style={StylesRegister.titleInput}>Confirmar contraseña:</Text>
+            <TextInput
+              style={StylesRegister.input}
+              placeholder="Confirmar contraseña"
+              value={confirmPassword}
+              onChangeText={text => onChange(text, 'confirmPassword')}
+              secureTextEntry
+            />
+          </View>
         </View>
-      </View>
-      <View
-        style={[StylesRegister.containerInput, StylesRegister.containerBtn]}>
-        <TouchableOpacity
-          style={StylesRegister.btn}
-          onPress={() => handleRegister()}>
-          <Text style={StylesRegister.btnText}>Registrarse</Text>
-        </TouchableOpacity>
+        <View
+          style={[StylesRegister.containerInput, StylesRegister.containerBtn]}>
+          <TouchableOpacity
+            style={StylesRegister.btn}
+            onPress={() => handleRegister()}>
+            <Text style={StylesRegister.btnText}>Registrarse</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

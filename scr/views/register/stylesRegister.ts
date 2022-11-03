@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   sectionContainer: {
-    height: '100%',
+    height: '80%',
     backgroundColor: '#338BF9',
     justifyContent: 'center',
   },
@@ -35,5 +35,13 @@ export default StyleSheet.create({
   },
   containerBtn: {
     paddingTop: '5%',
+  },
+  iconBackContainer: {
+    backgroundColor: '#338BF9',
+    height: '100%',
+  },
+  iconBack: {
+    width: 40,
+    height: 40,
   },
 });
