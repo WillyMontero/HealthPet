@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 import {Trash2, Edit, PlusCircle} from 'react-native-feather';
 import stylesPet from './stylesPet';
+import {useNavigation} from '@react-navigation/native';
 
 const Pets = () => {
+  const navigation = useNavigation();
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -35,7 +37,9 @@ const Pets = () => {
         <Text style={stylesPet.itemText}>{title}</Text>
         <TouchableOpacity
           style={stylesPet.btnDates}
-          onPress={() => console.log('asds')}>
+          onPress={() =>
+            navigation.navigate('petsAdd', {screen: 'DetailsScreen'})
+          }>
           <Text style={stylesPet.btnAddText}>Citas</Text>
         </TouchableOpacity>
       </View>
@@ -58,7 +62,7 @@ const Pets = () => {
     <View style={stylesPet.newItem}>
       <TouchableOpacity
         style={stylesPet.btnAdd}
-        onPress={() => console.log('asd')}>
+        onPress={() => console.log('asds')}>
         <PlusCircle stroke="white" fill="transparent" />
       </TouchableOpacity>
     </View>
