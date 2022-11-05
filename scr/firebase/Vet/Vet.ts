@@ -32,7 +32,12 @@ const Vet = () => {
     return data;
   };
 
-  return {addNewVet, deleteVet, getVets, updateVet};
+  const getAllVets = async () => {
+    const vetData = await vetRef.get();
+    return vetData.docs.map(vet => vet._data);
+  };
+
+  return {addNewVet, deleteVet, getVets, updateVet, getAllVets};
 };
 
 export default Vet;
