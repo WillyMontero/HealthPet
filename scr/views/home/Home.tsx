@@ -12,8 +12,10 @@ import StylesLogin from '../login/StylesLogin';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
 import {ArrowLeft, ArrowRight} from 'react-native-feather';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
   /*const [index, setIndex] = useState(0);
   const increment = useRef(1);
   useEffect(() => {
@@ -143,6 +145,20 @@ const Home = () => {
           }}
           onPress={() => takePhoto()}>
           <Text style={StylesLogin.btnText}>Tomar foto</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            backgroundColor: '#D9D9D9',
+            borderRadius: 4,
+            justifyContent: 'center',
+            height: 50,
+            width: 250,
+          }}
+          onPress={() =>
+            navigation.navigate('homeAlbum', {screen: 'DetailsScreen2'})
+          }>
+          <Text style={StylesLogin.btnText}>Ver Album</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

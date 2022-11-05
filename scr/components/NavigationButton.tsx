@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // Screens
 import HomeView from '../views/home/Home';
+import AlbumView from '../views/home/Album';
 import PetsView from '../views/pets/Pets';
 import MapsView from '../views/maps/Maps';
 import ProfileView from '../views/profile/Profile';
@@ -40,6 +41,18 @@ function PetsViews() {
   );
 }
 
+function HomeViews() {
+  return (
+    <SettingsStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <SettingsStack.Screen name="home" component={HomeView} />
+      <SettingsStack.Screen name="homeAlbum" component={AlbumView} />
+    </SettingsStack.Navigator>
+  );
+}
+
 const NavigationButton = () => {
   return (
     <NavigationContainer>
@@ -66,7 +79,7 @@ const NavigationButton = () => {
           labelStyle: {paddingBottom: 10, fontSize: 10},
           style: {padding: 10, height: 70},
         }}>
-        <Tab.Screen name={homeName} component={HomeView} />
+        <Tab.Screen name={homeName} component={HomeViews} />
         <Tab.Screen name={petsName} component={PetsViews} />
         <Tab.Screen name={mapsName} component={MapsView} />
         <Tab.Screen name={profileName} component={ProfileView} />
