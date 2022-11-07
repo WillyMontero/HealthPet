@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Text, View, TouchableOpacity, TextInput} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {UserContext} from '../../context/UserContext';
