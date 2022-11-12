@@ -6,7 +6,7 @@ const Pet = () => {
 
   const addNewPet = (pet: InputPet) => {
     try {
-      petRef.add(pet).then(() => {
+      return petRef.add(pet).then(reponse => {
         return true;
       });
     } catch (error) {

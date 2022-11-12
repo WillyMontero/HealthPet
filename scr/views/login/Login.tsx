@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-native';
 import StylesLogin from './StylesLogin';
 
 const Login = () => {
-  const {setIsLogged} = useContext(UserContext);
+  const {setIsLogged, setUser} = useContext(UserContext);
   const [values, setValues] = useState({user: '', password: ''});
   const {user, password} = values;
   const {checkUserData} = userFirebase();
@@ -20,6 +20,7 @@ const Login = () => {
     const response = await checkUserData(user, password);
     if (response) {
       setIsLogged(true);
+      setUser(response);
       navigate('/home');
     } else {
       Toast.show({
