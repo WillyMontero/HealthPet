@@ -62,8 +62,10 @@ const Pets = () => {
     <View style={stylesPet.newItem}>
       <TouchableOpacity
         style={stylesPet.btnAdd}
-        onPress={() => console.log('asds')}>
-        <PlusCircle stroke="white" fill="transparent" />
+        onPress={() =>
+          navigation.navigate('petsAdd', {screen: 'DetailsScreen'})
+        }>
+        <PlusCircle height={60} width={60} stroke="white" fill="transparent" />
       </TouchableOpacity>
     </View>
   );

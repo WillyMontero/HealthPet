@@ -9,7 +9,7 @@ import PetsView from '../views/pets/Pets';
 import MapsView from '../views/maps/Maps';
 import ProfileView from '../views/profile/Profile';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Text, View} from 'react-native';
+import NewPet from '../views/pets/components/NewPet';
 
 //Screen names
 const homeName = 'Home';
@@ -19,15 +19,6 @@ const profileName = 'Profile';
 
 const Tab = createBottomTabNavigator();
 
-function DetailsScreen() {
-  return (
-    // eslint-disable-next-line prettier/prettier
-    <View style={{ flex: 1, justifyContent: 'center',  alignItems: 'center' }}>
-      <Text>Details!</Text>
-    </View>
-  );
-}
-
 const SettingsStack = createStackNavigator();
 function PetsViews() {
   return (
@@ -36,7 +27,7 @@ function PetsViews() {
         headerShown: false,
       }}>
       <SettingsStack.Screen name="pets" component={PetsView} />
-      <SettingsStack.Screen name="petsAdd" component={DetailsScreen} />
+      <SettingsStack.Screen name="petsAdd" component={NewPet} />
     </SettingsStack.Navigator>
   );
 }
