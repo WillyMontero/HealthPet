@@ -7,6 +7,7 @@ export interface Pet {
   weight: string;
   bloodType: string;
   FK_User: string;
+  imageProfile: string;
 }
 
 export interface InputPet {
@@ -17,4 +18,5 @@ export interface InputPet {
   weight: string;
   bloodType: string;
   FK_User: string;
+  imageProfile: string;
 }

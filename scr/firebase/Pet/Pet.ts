@@ -25,10 +25,31 @@ const Pet = () => {
       .catch(() => false);
   };
 
-  const getPets = async (userId: string) => {
-    const data: TypePet[] = [];
-    const petData = await petRef.doc(userId).get();
-    console.log(petData);
+  const getPets = async (FK_User: string) => {
+    const data: any[] = [];
+    await petRef
+      .where('FK_User', '==', FK_User)
+      .get()
+      .then(snapShot => {
+        if (snapShot.empty) {
+          console.log('F');
+        } else {
+          snapShot.docs.forEach(doc => {
+            const newObj = {
+              id: doc.id,
+              FK_User: doc.get('FK_User'),
+              bloodType: doc.get('bloodType'),
+              bornDate: doc.get('bornDate'),
+              name: doc.get('name'),
+              petType: doc.get('petType'),
+              race: doc.get('race'),
+              weight: doc.get('weight'),
+              imageProfile: doc.get('imageProfile'),
+            };
+            data.push(newObj);
+          });
+        }
+      });
     return data;
   };
 
