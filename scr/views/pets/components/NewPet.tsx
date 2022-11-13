@@ -25,13 +25,15 @@ const NewPet = () => {
     bornDate: new Date(),
     weight: '',
     bloodType: '',
+    imageProfile: '',
   });
 
   const navigation = useNavigation();
-  const {user} = useContext(UserContext);
+  const {user, setNewPet} = useContext(UserContext);
   const {addNewPet} = petFirebase();
 
-  const {name, bloodType, bornDate, race, typePet, weight} = values;
+  const {name, bloodType, bornDate, race, typePet, weight, imageProfile} =
+    values;
 
   const onChange = (value: any, name: string) =>
     setValues(prev => ({...prev, [name]: value}));
@@ -60,6 +62,7 @@ const NewPet = () => {
       bornDate: new Date(),
       weight: '',
       bloodType: '',
+      imageProfile: '',
     });
   };
 
@@ -80,6 +83,7 @@ const NewPet = () => {
       bornDate,
       petType: typePet,
       race,
+      imageProfile,
     });
     Toast.show({
       type: 'success',
@@ -87,6 +91,7 @@ const NewPet = () => {
       text2: '¡Mascota agregada!',
     });
     clean();
+    setNewPet(true);
     navigation.navigate('Pets', {screen: 'pets'});
   };
 

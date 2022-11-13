@@ -10,31 +10,49 @@ import {
 import {Trash2, Edit, PlusCircle} from 'react-native-feather';
 import stylesPet from './stylesPet';
 import {useNavigation} from '@react-navigation/native';
+import {Pet as petFirebase} from '../../firebase';
+import {UserContext} from '../../context/UserContext';
 
 const Pets = () => {
+  const {user, newPet, setNewPet} = React.useContext(UserContext);
   const navigation = useNavigation();
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'Pipo',
-    },
+  const {getPets} = petFirebase();
+  const [DATA, setData] = React.useState([
     {
       id: 'new',
     },
-  ];
+  ]);
 
-  const Item = ({title}: any) => (
+  const loadPets = React.useCallback(async () => {
+    const response = await getPets(user.id);
+    setData([
+      ...response,
+      {
+        id: 'new',
+      },
+    ]);
+    setNewPet(false);
+  }, [getPets]);
+
+  React.useEffect(() => {
+    newPet && loadPets();
+  }, [newPet]);
+
+  const Item = ({item: info}: any) => (
     <View style={stylesPet.item}>
       <View style={stylesPet.containerImageItem}>
         <Image
           style={stylesPet.picture}
           source={{
-            uri: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Frn_image_picker_lib_temp_4798c78e-746c-4a2a-9a25-717c4b2cc6a8.jpg?alt=media&token=253e526e-0308-4ce7-8e5b-e9f9a82993c7',
+            uri:
+              info?.imageProfile?.trim() > 0
+                ? info?.imageProfile
+                : 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fdescarga.png?alt=media&token=bf9963b1-6166-467a-9693-1c12ca1375a3',
           }}
         />
       </View>
       <View style={stylesPet.containerDates}>
-        <Text style={stylesPet.itemText}>{title}</Text>
+        <Text style={stylesPet.itemText}>{info.name}</Text>
         <TouchableOpacity
           style={stylesPet.btnDates}
           onPress={() =>
@@ -51,7 +69,7 @@ const Pets = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={stylesPet.btnEditRemove}
-          onPress={() => console.log('asd')}>
+          onPress={() => console.log('elimnar')}>
           <Trash2 stroke="red" fill="transparent" />
         </TouchableOpacity>
       </View>
@@ -72,7 +90,7 @@ const Pets = () => {
 
   const renderItem = ({item}: any) => {
     if (item.id !== 'new') {
-      return <Item title={item.title} />;
+      return <Item key={item.id} item={item} />;
     } else {
       return <ItemNew />;
     }

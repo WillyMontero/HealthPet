@@ -7,14 +7,13 @@ interface IUser {
   user: {
     id: string;
     name: string;
-    petType: string;
-    race: string;
-    bornDate: Date;
-    weight: string;
-    bloodType: string;
-    FK_User: string;
+    surname: string;
+    email: string;
+    password: string;
   };
   setUser: any;
+  newPet: boolean;
+  setNewPet: any;
 }
 
 const initialState = {
@@ -23,14 +22,13 @@ const initialState = {
   user: {
     id: '',
     name: '',
-    petType: '',
-    race: '',
-    bornDate: new Date(),
-    weight: '',
-    bloodType: '',
-    FK_User: '',
+    surname: '',
+    email: '',
+    password: '',
   },
   setUser: null,
+  newPet: true,
+  setNewPet: null,
 };
 
 const UserContext = createContext<IUser>(initialState);
@@ -40,14 +38,12 @@ const UserProvider = (props: any) => {
   const [user, setUser] = useState({
     id: '',
     name: '',
-    petType: '',
-    race: '',
-    bornDate: new Date(),
-    weight: '',
-    bloodType: '',
-    FK_User: '',
+    surname: '',
+    email: '',
+    password: '',
   });
-  const values = {isLogged, setIsLogged, user, setUser};
+  const [newPet, setNewPet] = useState(true);
+  const values = {isLogged, setIsLogged, user, setUser, newPet, setNewPet};
 
   return (
     <UserContext.Provider value={values}>{props.children}</UserContext.Provider>
