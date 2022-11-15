@@ -45,9 +45,9 @@ const Pets = () => {
           style={stylesPet.picture}
           source={{
             uri:
-              info?.imageProfile?.trim() > 0
+              info?.imageProfile?.trim().length > 0
                 ? info?.imageProfile
-                : 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fdescarga.png?alt=media&token=bf9963b1-6166-467a-9693-1c12ca1375a3',
+                : 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
           }}
         />
       </View>
