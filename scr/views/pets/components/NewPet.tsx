@@ -15,6 +15,10 @@ import {Pet as petFirebase} from '../../../firebase';
 import Toast from 'react-native-toast-message';
 import RNPickerSelect from 'react-native-picker-select';
 import {useNavigation} from '@react-navigation/native';
+import {Camera} from 'react-native-feather';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {Menu, MenuItem} from 'react-native-material-menu';
+import storage from '@react-native-firebase/storage';
 
 const NewPet = () => {
   const [open, setOpen] = useState(false);
@@ -25,12 +29,17 @@ const NewPet = () => {
     bornDate: new Date(),
     weight: '',
     bloodType: '',
-    imageProfile: '',
+    imageProfile:
+      'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
   });
 
   const navigation = useNavigation();
   const {user, setNewPet} = useContext(UserContext);
   const {addNewPet} = petFirebase();
+  const [photoURL, setPhotoURL] = useState<any>(
+    'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
+  );
+  const [photoToUpload, setPhotoToUpload] = useState<any>(null);
 
   const {name, bloodType, bornDate, race, typePet, weight, imageProfile} =
     values;
@@ -62,8 +71,21 @@ const NewPet = () => {
       bornDate: new Date(),
       weight: '',
       bloodType: '',
-      imageProfile: '',
+      imageProfile:
+        'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
     });
+  };
+
+  const uploadImage = async () => {
+    try {
+      const newRef = storage().ref('images/').child(photoToUpload.fileName);
+      await newRef.putFile(photoToUpload.uri);
+      let urlLink = await newRef.getDownloadURL();
+      return urlLink;
+    } catch (error) {
+      console.log(error);
+    }
+    return '';
   };
 
   const handleSaveNewPet = async () => {
@@ -75,16 +97,31 @@ const NewPet = () => {
       });
       return;
     }
-    const response = addNewPet({
-      bloodType,
-      FK_User: user?.id,
-      name,
-      weight,
-      bornDate,
-      petType: typePet,
-      race,
-      imageProfile,
-    });
+    if (photoToUpload !== null) {
+      await uploadImage().then(value => {
+        const response = addNewPet({
+          bloodType,
+          FK_User: user?.id,
+          name,
+          weight,
+          bornDate,
+          petType: typePet,
+          race,
+          imageProfile: value,
+        });
+      });
+    } else {
+      const response = addNewPet({
+        bloodType,
+        FK_User: user?.id,
+        name,
+        weight,
+        bornDate,
+        petType: typePet,
+        race,
+        imageProfile,
+      });
+    }
     Toast.show({
       type: 'success',
       text1: 'Agregar nueva mascota',
@@ -95,6 +132,26 @@ const NewPet = () => {
     navigation.navigate('Pets', {screen: 'pets'});
   };
 
+  const loadPhoto = async () => {
+    const result = await launchImageLibrary({mediaType: 'photo'});
+    setPhotoURL(result.assets[0].uri);
+    setPhotoToUpload(result.assets[0]);
+    hideMenu();
+  };
+
+  const takePhoto = async () => {
+    const result = await launchCamera({mediaType: 'photo'});
+    setPhotoURL(result.assets[0].uri);
+    setPhotoToUpload(result.assets[0]);
+    hideMenu();
+  };
+
+  const [visible, setVisible] = useState(false);
+
+  const hideMenu = () => setVisible(false);
+
+  const showMenu = () => setVisible(true);
+
   return (
     <SafeAreaView style={StyleNewPet.sectionContainer}>
       <ScrollView style={{width: '100%'}}>
@@ -102,9 +159,37 @@ const NewPet = () => {
           <Image
             style={StyleNewPet.picture}
             source={{
-              uri: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Frn_image_picker_lib_temp_4798c78e-746c-4a2a-9a25-717c4b2cc6a8.jpg?alt=media&token=253e526e-0308-4ce7-8e5b-e9f9a82993c7',
+              uri: photoURL,
             }}
           />
+        </View>
+        <View
+          style={{
+            zIndex: 1,
+            elevation: 1,
+            marginTop: 90,
+            marginLeft: 200,
+            position: 'absolute',
+          }}>
+          <Menu
+            visible={visible}
+            anchor={
+              <Camera
+                fill={'black'}
+                color={'white'}
+                width={30}
+                height={30}
+                onTouchEnd={() => {
+                  showMenu();
+                }}
+              />
+            }
+            onRequestClose={hideMenu}>
+            <MenuItem onPress={() => takePhoto()}>Tomar Foto</MenuItem>
+            <MenuItem onPress={() => loadPhoto()}>
+              Seleccionar desde galería
+            </MenuItem>
+          </Menu>
         </View>
         <View style={{width: '100%', alignItems: 'center'}}>
           <View style={StyleNewPet.inputField}>
