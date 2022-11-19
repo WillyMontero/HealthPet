@@ -133,17 +133,25 @@ const NewPet = () => {
   };
 
   const loadPhoto = async () => {
-    const result = await launchImageLibrary({mediaType: 'photo'});
-    setPhotoURL(result.assets[0].uri);
-    setPhotoToUpload(result.assets[0]);
-    hideMenu();
+    try {
+      const result = await launchImageLibrary({mediaType: 'photo'});
+      setPhotoURL(result.assets[0].uri);
+      setPhotoToUpload(result.assets[0]);
+      hideMenu();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const takePhoto = async () => {
-    const result = await launchCamera({mediaType: 'photo'});
-    setPhotoURL(result.assets[0].uri);
-    setPhotoToUpload(result.assets[0]);
-    hideMenu();
+    try {
+      const result = await launchCamera({mediaType: 'photo'});
+      setPhotoURL(result.assets[0].uri);
+      setPhotoToUpload(result.assets[0]);
+      hideMenu();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const [visible, setVisible] = useState(false);

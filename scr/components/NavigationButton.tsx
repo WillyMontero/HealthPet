@@ -1,7 +1,11 @@
 import React from 'react';
-import {ArrowUpCircle, Image, Airplay, Award} from 'react-native-feather';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faPaw} from '@fortawesome/free-solid-svg-icons/faPaw';
+import {faMapLocationDot} from '@fortawesome/free-solid-svg-icons/faMapLocationDot';
+import {faImages} from '@fortawesome/free-solid-svg-icons/faImages';
+import {faUserPen} from '@fortawesome/free-solid-svg-icons/faUserPen';
 // Screens
 import HomeView from '../views/home/Home';
 import AlbumView from '../views/home/Album';
@@ -54,21 +58,23 @@ const NavigationButton = () => {
             let rn = route.name;
 
             if (rn === homeName) {
-              return <Image stroke="red" fill="white" />;
+              return <FontAwesomeIcon icon={faImages} size={25} />;
             } else if (rn === petsName) {
-              return <ArrowUpCircle stroke="red" fill="white" />;
+              return <FontAwesomeIcon icon={faPaw} size={25} />; // color="white"
             } else if (rn === mapsName) {
-              return <Airplay stroke="red" fill="white" />;
+              return <FontAwesomeIcon icon={faMapLocationDot} size={25} />;
             } else if (rn === profileName) {
-              return <Award stroke="red" fill="white" />;
+              return <FontAwesomeIcon icon={faUserPen} size={25} />;
             }
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
+          activeTintColor: 'white',
           inactiveTintColor: 'grey',
-          labelStyle: {paddingBottom: 10, fontSize: 10},
-          style: {padding: 10, height: 70},
+          inactiveBackgroundColor: '#D9D9D9',
+          activeBackgroundColor: 'gray',
+          labelStyle: {paddingBottom: 10, fontSize: 13},
+          style: {height: 70},
         }}>
         <Tab.Screen name={homeName} component={HomeViews} />
         <Tab.Screen name={petsName} component={PetsViews} />
