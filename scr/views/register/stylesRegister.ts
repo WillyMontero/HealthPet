@@ -6,6 +6,12 @@ export default StyleSheet.create({
     backgroundColor: '#338BF9',
     justifyContent: 'center',
   },
+  profileSectionContainer: {
+    alignItems: 'center',
+    height: '100%',
+    backgroundColor: '#338BF9',
+    justifyContent: 'center',
+  },
   input: {
     borderRadius: 20,
     backgroundColor: '#FFFFFF',
@@ -28,6 +34,10 @@ export default StyleSheet.create({
   },
   inputField: {
     width: '80%',
+  },
+  inputFieldProfile: {
+    width: 250,
+    paddingBottom: 10,
   },
   containerInput: {
     justifyContent: 'center',

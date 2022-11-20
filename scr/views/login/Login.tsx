@@ -1,5 +1,11 @@
 import React, {useContext, useState} from 'react';
-import {Text, View, TouchableOpacity, TextInput} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  ImageBackground,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {UserContext} from '../../context/UserContext';
 import {User as userFirebase} from '../../firebase';
@@ -32,45 +38,53 @@ const Login = () => {
   };
 
   return (
-    <View style={StylesLogin.sectionContainer}>
-      <View style={StylesLogin.titleContainer}>
-        <Text style={[StylesLogin.title, StylesLogin.btnText]}>Health Pet</Text>
-      </View>
-      <View style={StylesLogin.inputContainer}>
-        <View style={StylesLogin.inputField}>
-          <Text style={StylesLogin.titleInput}>Correo electronico</Text>
-          <TextInput
-            style={StylesLogin.input}
-            placeholder="Correo electronico"
-            value={user}
-            onChangeText={text => onChange(text, 'user')}
-          />
-        </View>
-        <View style={StylesLogin.inputField}>
-          <Text style={StylesLogin.titleInput}>Contraseña</Text>
-          <TextInput
-            style={StylesLogin.input}
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={text => onChange(text, 'password')}
-            secureTextEntry
-          />
-        </View>
-        <View style={StylesLogin.btnConteiner}>
-          <TouchableOpacity style={StylesLogin.btn} onPress={() => login()}>
-            <Text style={StylesLogin.btnText}>Iniciar Sesión</Text>
-          </TouchableOpacity>
+    <ImageBackground
+      source={{
+        uri: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fbg1.jpg?alt=media&token=54f4c1ef-3aeb-45c3-878a-63357bd17fbb',
+      }}
+      style={{width: '100%', height: '100%'}}>
+      <View style={StylesLogin.sectionContainer}>
+        <View style={StylesLogin.titleContainer}>
+          <Text style={[StylesLogin.title, StylesLogin.btnText]}>
+            Health Pet
+          </Text>
         </View>
         <View style={StylesLogin.inputContainer}>
-          <TouchableOpacity onPress={() => navigate('/register')}>
-            <Text style={StylesLogin.btnLink}>¿No tienes cuenta?</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('login')}>
-            <Text style={StylesLogin.btnLink}>¿Olvidaste tu contraseña?</Text>
-          </TouchableOpacity>
+          <View style={StylesLogin.inputField}>
+            <Text style={StylesLogin.titleInput}>Correo electronico</Text>
+            <TextInput
+              style={StylesLogin.input}
+              placeholder="Correo electronico"
+              value={user}
+              onChangeText={text => onChange(text, 'user')}
+            />
+          </View>
+          <View style={StylesLogin.inputField}>
+            <Text style={StylesLogin.titleInput}>Contraseña</Text>
+            <TextInput
+              style={StylesLogin.input}
+              placeholder="Contraseña"
+              value={password}
+              onChangeText={text => onChange(text, 'password')}
+              secureTextEntry
+            />
+          </View>
+          <View style={StylesLogin.btnConteiner}>
+            <TouchableOpacity style={StylesLogin.btn} onPress={() => login()}>
+              <Text style={StylesLogin.btnText}>Iniciar Sesión</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={StylesLogin.inputContainer}>
+            <TouchableOpacity onPress={() => navigate('/register')}>
+              <Text style={StylesLogin.btnLink}>¿No tienes cuenta?</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('login')}>
+              <Text style={StylesLogin.btnLink}>¿Olvidaste tu contraseña?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 

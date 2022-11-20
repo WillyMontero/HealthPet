@@ -5,7 +5,6 @@ import GridImageView from 'react-native-grid-image-viewer';
 const Album = () => {
   return (
     <View style={styles.background}>
-      <Text style={styles.headline_text}>Tu album de mascotas!!</Text>
       <GridImageView
         heightOfGridImage={200}
         data={[
@@ -24,6 +23,7 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: 'black',
     flex: 1,
+    paddingTop: 45,
   },
   headline_text: {
     color: 'white',
