@@ -14,8 +14,23 @@ const User = () => {
     }
   };
 
-  const updateUser = async (dataUser: TypeUser) =>
-    await userRef.doc(dataUser.id).set(dataUser);
+  const updateUser = async (userID: string, dataUser: InputUser) => {
+    try {
+      await userRef
+        .doc(userID)
+        .update({
+          name: dataUser.name,
+          surname: dataUser.surname,
+          email: dataUser.email,
+          password: dataUser.password,
+        })
+        .then(response => {
+          return true;
+        });
+    } catch (error) {
+      return false;
+    }
+  };
 
   const checkUserData = (email: string, password: string) => {
     return userRef
