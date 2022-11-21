@@ -8,7 +8,7 @@ import StylesLogin from './StylesLogin';
 
 const Login = () => {
   const {setIsLogged, setUser} = useContext(UserContext);
-  const [values, setValues] = useState({user: 'wm', password: '123'});
+  const [values, setValues] = useState({user: '', password: ''});
   const {user, password} = values;
   const {checkUserData} = userFirebase();
   const navigate = useNavigate();

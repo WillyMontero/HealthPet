@@ -14,7 +14,8 @@ import {Pet as petFirebase} from '../../firebase';
 import {UserContext} from '../../context/UserContext';
 
 const Pets = () => {
-  const {user, newPet, setNewPet} = React.useContext(UserContext);
+  const {user, newPet, setNewPet, setPetSelected, setNewDate} =
+    React.useContext(UserContext);
   const navigation = useNavigation();
   const {getPets} = petFirebase();
   const [DATA, setData] = React.useState([
@@ -39,39 +40,58 @@ const Pets = () => {
   }, [newPet]);
 
   const Item = ({item: info}: any) => (
-    <View style={stylesPet.item}>
-      <View style={stylesPet.containerImageItem}>
-        <Image
-          style={stylesPet.picture}
-          source={{
-            uri:
-              info?.imageProfile?.trim().length > 0
-                ? info?.imageProfile
-                : 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
-          }}
-        />
+    <View style={{backgroundColor: '#095256'}}>
+      <View style={stylesPet.item}>
+        <View style={stylesPet.containerImageItem}>
+          <Image
+            style={stylesPet.picture}
+            source={{
+              uri:
+                info?.imageProfile?.trim().length > 0
+                  ? info?.imageProfile
+                  : 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
+            }}
+          />
+        </View>
+        <View style={stylesPet.containerDates}>
+          <Text style={stylesPet.itemText}>{info.name}</Text>
+          <TouchableOpacity
+            style={stylesPet.btnDates}
+            onPress={() => {
+              setPetSelected(info);
+              setNewDate(true);
+              navigation.navigate('petsDate', {screen: 'Date'});
+            }}>
+            <Text style={stylesPet.btnAddText}>Expediente</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={stylesPet.containerEditRemove}>
+          <TouchableOpacity
+            style={stylesPet.btnEditRemove}
+            onPress={() => console.log('asd')}>
+            <Edit stroke="white" fill="transparent" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={stylesPet.btnEditRemove}
+            onPress={() => console.log('elimnar')}>
+            <Trash2 stroke="red" fill="transparent" />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={stylesPet.containerDates}>
-        <Text style={stylesPet.itemText}>{info.name}</Text>
-        <TouchableOpacity
-          style={stylesPet.btnDates}
-          onPress={() =>
-            navigation.navigate('petsAdd', {screen: 'DetailsScreen'})
-          }>
-          <Text style={stylesPet.btnAddText}>Citas</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={stylesPet.containerEditRemove}>
-        <TouchableOpacity
-          style={stylesPet.btnEditRemove}
-          onPress={() => console.log('asd')}>
-          <Edit stroke="white" fill="transparent" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={stylesPet.btnEditRemove}
-          onPress={() => console.log('elimnar')}>
-          <Trash2 stroke="red" fill="transparent" />
-        </TouchableOpacity>
+      <View style={{width: '100%'}}>
+        <Text
+          style={{
+            color: '#FFFFFF',
+            fontWeight: 'bold',
+            paddingLeft: 5,
+            paddingBottom: 5,
+          }}>
+          {info?.nextDate
+            ? `Proxima Cita: ${new Date(
+                info?.nextDate.seconds * 1000,
+              ).toLocaleDateString('es-CR')}`
+            : 'No hay cita programada.'}
+        </Text>
       </View>
     </View>
   );
@@ -80,9 +100,7 @@ const Pets = () => {
     <View style={stylesPet.newItem}>
       <TouchableOpacity
         style={stylesPet.btnAdd}
-        onPress={() =>
-          navigation.navigate('petsAdd', {screen: 'DetailsScreen'})
-        }>
+        onPress={() => navigation.navigate('petsAdd', {screen: 'NewPet'})}>
         <PlusCircle height={60} width={60} stroke="white" fill="transparent" />
       </TouchableOpacity>
     </View>

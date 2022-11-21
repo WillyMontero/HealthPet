@@ -1,14 +1,16 @@
-export interface Date {
+export interface Dates {
   id: string;
+  title: string;
   reason: string;
-  date: string;
-  medication: [string];
-  FK_Record: number;
+  date: Date;
+  medication: string;
+  FK_Pet: string;
 }
 
-export interface InputDate {
+export interface InputDates {
+  title: string;
   reason: string;
-  date: string;
-  medication: [string];
-  FK_Record: number;
+  date: Date;
+  medication: string;
+  FK_Pet: string;
 }
