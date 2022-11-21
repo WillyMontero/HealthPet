@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect, useRef, useState} from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import Slideshow from 'react-native-image-slider-show';
 import StylesLogin from '../login/StylesLogin';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
-import {ArrowLeft, ArrowRight, Camera, Image} from 'react-native-feather';
-import {useNavigation} from '@react-navigation/native';
-import {Menu, MenuItem} from 'react-native-material-menu';
+import { ArrowLeft, ArrowRight, Camera, Image } from 'react-native-feather';
+import { useNavigation } from '@react-navigation/native';
+import { Menu, MenuItem } from 'react-native-material-menu';
+import { User as userFirebase } from '../../firebase';
+import { UserContext } from '../../context/UserContext';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -32,29 +34,70 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [index]);*/
   const [loading, setLoading] = useState(false);
-  const [photoURL, setPhotoURL] = useState<any>(
-    'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fm6.jpg?alt=media&token=689ca3f3-12b0-4939-8281-11de3f26312e',
-  );
+  const [photoURL, setPhotoURL] = useState<any>([
+    {
+      url: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
+    },
+  ]);
+  const { addAlbumImage, getAlbum } = userFirebase();
+  const { user } = useContext(UserContext);
+
+  const loadPets = React.useCallback(async () => {
+    await getAlbum(user.id).then(res => {
+      if (res)
+        setPhotoURL(
+          res.data().album.map(r => {
+            return {url: r};
+          }),
+        );
+      else
+        setPhotoURL([
+          {
+            url: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
+          },
+        ]);
+    });
+  }, [getAlbum]);
+
+  useEffect(() => {
+    loadPets();
+  }, []);
 
   const loadPhoto = async () => {
     try {
-      const result = await launchImageLibrary({mediaType: 'photo'});
-      setPhotoURL(result.assets[0].uri);
+      const result = await launchImageLibrary({ mediaType: 'photo' });
+      if (
+        photoURL.length === 1 &&
+        photoURL[0].url ===
+          'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5'
+      ) {
+        setPhotoURL([{url: result.assets[0].uri}]);
+      } else {
+        setPhotoURL((prev) => [...prev, {url: result.assets[0].uri}]);
+      }
       uploadImage(result.assets[0]);
       hideMenu();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const takePhoto = async () => {
     try {
-      const result = await launchCamera({mediaType: 'photo'});
-      setPhotoURL(result.assets[0].uri);
+      const result = await launchCamera({ mediaType: 'photo' });
+      if (
+        photoURL.length === 1 &&
+        photoURL[0].url ===
+          'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5'
+      ) {
+        setPhotoURL([{url: result.assets[0].uri}]);
+      } else {
+        setPhotoURL((prev) => [...prev, {url: result.assets[0].uri}]);
+      }
       uploadImage(result.assets[0]);
       hideMenu();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -63,11 +106,13 @@ const Home = () => {
       const newRef = storage().ref('images/').child(result.fileName);
       await newRef.putFile(result.uri);
       let urlImagen = await newRef.getDownloadURL();
-      console.log('la url de la imagen es: ' + urlImagen);
+      await addAlbumImage(user.id, urlImagen);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
+  //getAlbum(user.id);
 
   const [visible, setVisible] = useState(false);
 
@@ -80,7 +125,7 @@ const Home = () => {
       source={{
         uri: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fbg1.jpg?alt=media&token=54f4c1ef-3aeb-45c3-878a-63357bd17fbb',
       }}
-      style={{width: '100%', height: '100%'}}>
+      style={{ width: '100%', height: '100%' }}>
       <View style={styles.backGroundImage}>
         <ImageBackground
           source={{
@@ -94,25 +139,8 @@ const Home = () => {
       <View style={styles.container}>
         <Slideshow
           height={450}
-          dataSource={[
-            {
-              url: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fm1.jpg?alt=media&token=21b78ea6-4741-4b16-af6f-6e640640833d',
-            },
-            {
-              url: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fm2.jpg?alt=media&token=9e0106f5-c534-44e2-b7d5-1987f39801af',
-            },
-            {
-              url: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fm3.jpg?alt=media&token=0bb2fb94-2c04-4c2f-b44c-a7293e88e8cd',
-            },
-            {
-              url: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fm4.jpg?alt=media&token=8a32835f-4b25-4144-aeae-461d3f03372a',
-            },
-            {
-              url: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fm7.jpg?alt=media&token=bee40675-5604-4535-a365-b42aac87bbd7',
-            },
-            {url: photoURL},
-          ]}
-          containerStyle={{width: 300, borderColor: 'black', borderWidth: 2}}
+          dataSource={photoURL}
+          containerStyle={{ width: 300, borderColor: 'black', borderWidth: 2 }}
           arrowSize={0}
           arrowLeft={
             <ArrowLeft

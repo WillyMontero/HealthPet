@@ -19,6 +19,7 @@ import {Camera} from 'react-native-feather';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import storage from '@react-native-firebase/storage';
+import {User as userFirebase} from '../../../firebase';
 
 const NewPet = () => {
   const [open, setOpen] = useState(false);
@@ -40,6 +41,7 @@ const NewPet = () => {
     'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
   );
   const [photoToUpload, setPhotoToUpload] = useState<any>(null);
+  const {addAlbumImage} = userFirebase();
 
   const {name, bloodType, bornDate, race, typePet, weight, imageProfile} =
     values;
@@ -109,6 +111,8 @@ const NewPet = () => {
           race,
           imageProfile: value,
         });
+        //add image url to album
+        addAlbumImage(user.id, value);
       });
     } else {
       const response = addNewPet({
