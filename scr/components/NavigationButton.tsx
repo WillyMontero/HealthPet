@@ -14,6 +14,8 @@ import MapsView from '../views/maps/Maps';
 import ProfileView from '../views/profile/Profile';
 import {createStackNavigator} from '@react-navigation/stack';
 import NewPet from '../views/pets/components/NewPet';
+import Date from '../views/pets/components/Date';
+import NewDate from '../views/pets/components/NewDate';
 
 //Screen names
 const homeName = 'Home';
@@ -32,6 +34,8 @@ function PetsViews() {
       }}>
       <SettingsStack.Screen name="pets" component={PetsView} />
       <SettingsStack.Screen name="petsAdd" component={NewPet} />
+      <SettingsStack.Screen name="dateAdd" component={NewDate} />
+      <SettingsStack.Screen name="petsDate" component={Date} />
     </SettingsStack.Navigator>
   );
 }

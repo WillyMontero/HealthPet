@@ -6,7 +6,7 @@ const Date = () => {
 
   const addNewDate = (date: InputDate) => {
     try {
-      dateRef.add(date).then(() => {
+      return dateRef.add(date).then(response => {
         return true;
       });
     } catch (error) {
@@ -32,7 +32,32 @@ const Date = () => {
     return data;
   };
 
-  return {addNewDate, deleteDate, getDates, updateDate};
+  const getAllDates = async (FK_Pet: string) => {
+    const data: any[] = [];
+    await dateRef
+      .where('FK_Pet', '==', FK_Pet)
+      .get()
+      .then(snapShot => {
+        if (snapShot.empty) {
+          console.log('F');
+        } else {
+          snapShot.docs.forEach(doc => {
+            const newObj = {
+              id: doc.id,
+              FK_Pet: doc.get('FK_User'),
+              date: doc.get('date'),
+              medication: doc.get('medication'),
+              reason: doc.get('reason'),
+              title: doc.get('title'),
+            };
+            data.push(newObj);
+          });
+        }
+      });
+    return data;
+  };
+
+  return {addNewDate, deleteDate, getDates, updateDate, getAllDates};
 };
 
 export default Date;

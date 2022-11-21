@@ -129,7 +129,7 @@ const NewPet = () => {
     });
     clean();
     setNewPet(true);
-    navigation.navigate('Pets', {screen: 'pets'});
+    navigation.goBack();
   };
 
   const loadPhoto = async () => {
