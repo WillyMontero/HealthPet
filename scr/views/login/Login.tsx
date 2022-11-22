@@ -51,10 +51,10 @@ const Login = () => {
         </View>
         <View style={StylesLogin.inputContainer}>
           <View style={StylesLogin.inputField}>
-            <Text style={StylesLogin.titleInput}>Correo electronico</Text>
+            <Text style={StylesLogin.titleInput}>Correo electrónico</Text>
             <TextInput
               style={StylesLogin.input}
-              placeholder="Correo electronico"
+              placeholder="Correo electrónico"
               value={user}
               onChangeText={text => onChange(text, 'user')}
             />
