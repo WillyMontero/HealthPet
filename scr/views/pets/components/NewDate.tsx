@@ -16,8 +16,14 @@ import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 
 const NewDate = () => {
-  const {petSelected, setNewDate, dateSelected, editDate} =
-    React.useContext(UserContext);
+  const {
+    petSelected,
+    setNewDate,
+    dateSelected,
+    editDate,
+    setEditDate,
+    setDateSelected,
+  } = React.useContext(UserContext);
   const navigation = useNavigation();
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
@@ -46,7 +52,28 @@ const NewDate = () => {
     });
   };
 
+  const validate = () => {
+    if (title.trim() === '') {
+      return true;
+    }
+    if (reason.trim() === '') {
+      return true;
+    }
+    if (medication.trim() === '') {
+      return true;
+    }
+    return false;
+  };
+
   const handleSave = async () => {
+    if (validate()) {
+      Toast.show({
+        type: 'error',
+        text1: 'Agregar nueva cita',
+        text2: 'Debes completar todos los espacios. 😞',
+      });
+      return;
+    }
     !editDate
       ? addNewDate({
           title,
@@ -76,6 +103,8 @@ const NewDate = () => {
         });
     clean();
     setNewDate(true);
+    setEditDate(false);
+    setDateSelected(null);
     navigation.goBack();
   };
 

@@ -11,12 +11,13 @@ import {useNavigation} from '@react-navigation/native';
 import StyleDate from './StyleDate';
 import {UserContext} from '../../../context/UserContext';
 import {Date as dateFirebase} from '../../../firebase';
+import Toast from 'react-native-toast-message';
 
 const Dates = () => {
   const navigation = useNavigation();
   const {petSelected, newDate, setNewDate, setDateSelected, setEditDate} =
     React.useContext(UserContext);
-  const {getAllDates} = dateFirebase();
+  const {getAllDates, deleteDate} = dateFirebase();
   const [DATA, setData] = React.useState([
     {
       id: 'new',
@@ -37,6 +38,16 @@ const Dates = () => {
   React.useEffect(() => {
     newDate && loadDates();
   }, [newDate]);
+
+  const deleteDates = async (idPet: any) => {
+    await deleteDate(idPet);
+    loadDates();
+    Toast.show({
+      type: 'success',
+      text1: 'Eliminar mascota',
+      text2: '¡Mascota eliminada!',
+    });
+  };
 
   const Item = ({item: info}: any) => (
     <View style={{backgroundColor: '#095256'}}>
@@ -61,7 +72,7 @@ const Dates = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={StyleDate.btnDatesDelete}
-            onPress={() => console.log('Eliminar')}>
+            onPress={() => deleteDates(info.id)}>
             <Text style={StyleDate.btnAddText}>Eliminar</Text>
           </TouchableOpacity>
         </View>

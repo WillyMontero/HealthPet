@@ -22,7 +22,8 @@ import storage from '@react-native-firebase/storage';
 import {User as userFirebase} from '../../../firebase';
 
 const NewPet = () => {
-  const {user, setNewPet, editPet, petSelected} = useContext(UserContext);
+  const {user, setNewPet, editPet, petSelected, setEditPet, setPetSelected} =
+    useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
     name: !editPet ? '' : petSelected.name,
@@ -92,7 +93,7 @@ const NewPet = () => {
   };
 
   const handleSaveNewPet = async () => {
-    if (!validate) {
+    if (validate()) {
       Toast.show({
         type: 'error',
         text1: 'Agregar nueva mascota',
@@ -163,7 +164,9 @@ const NewPet = () => {
           text2: '¡Mascota editada!',
         });
     clean();
+    setPetSelected(null);
     setNewPet(true);
+    setEditPet(false);
     navigation.goBack();
   };
 

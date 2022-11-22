@@ -12,12 +12,13 @@ import stylesPet from './stylesPet';
 import {useNavigation} from '@react-navigation/native';
 import {Pet as petFirebase} from '../../firebase';
 import {UserContext} from '../../context/UserContext';
+import Toast from 'react-native-toast-message';
 
 const Pets = () => {
   const {user, newPet, setNewPet, setPetSelected, setNewDate, setEditPet} =
     React.useContext(UserContext);
   const navigation = useNavigation();
-  const {getPets} = petFirebase();
+  const {getPets, deletePet} = petFirebase();
   const [DATA, setData] = React.useState([
     {
       id: 'new',
@@ -38,6 +39,16 @@ const Pets = () => {
   React.useEffect(() => {
     newPet && loadPets();
   }, [newPet]);
+
+  const deletePets = async (idPet: any) => {
+    await deletePet(idPet);
+    loadPets();
+    Toast.show({
+      type: 'success',
+      text1: 'Eliminar mascota',
+      text2: '¡Mascota eliminada!',
+    });
+  };
 
   const Item = ({item: info}: any) => (
     <View style={{backgroundColor: '#095256'}}>
@@ -77,7 +88,7 @@ const Pets = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={stylesPet.btnEditRemove}
-            onPress={() => console.log('elimnar')}>
+            onPress={() => deletePets(info.id)}>
             <Trash2 stroke="red" fill="transparent" />
           </TouchableOpacity>
         </View>
