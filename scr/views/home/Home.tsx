@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  LogBox,
 } from 'react-native';
 import Slideshow from 'react-native-image-slider-show';
 import StylesLogin from '../login/StylesLogin';
@@ -16,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Menu, MenuItem } from 'react-native-material-menu';
 import { User as userFirebase } from '../../firebase';
 import { UserContext } from '../../context/UserContext';
+import Toast from 'react-native-toast-message';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -60,6 +62,7 @@ const Home = () => {
   }, [getAlbum]);
 
   useEffect(() => {
+    LogBox.ignoreAllLogs();
     loadPets();
   }, []);
 
@@ -107,6 +110,11 @@ const Home = () => {
       await newRef.putFile(result.uri);
       let urlImagen = await newRef.getDownloadURL();
       await addAlbumImage(user.id, urlImagen);
+      Toast.show({
+        type: 'success',
+        text1: 'Álbum',
+        text2: '¡Imagen Agregada!',
+      });
     } catch (error) {
       console.error(error);
     }

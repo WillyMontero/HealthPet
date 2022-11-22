@@ -3,13 +3,12 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   sectionContainer: {
     height: '80%',
-    backgroundColor: '#338BF9',
+    display: 'flex',
     justifyContent: 'center',
   },
   profileSectionContainer: {
     alignItems: 'center',
     height: '100%',
-    backgroundColor: '#338BF9',
     justifyContent: 'center',
   },
   input: {
@@ -34,6 +33,7 @@ export default StyleSheet.create({
   },
   inputField: {
     width: '80%',
+    paddingBottom: 10,
   },
   inputFieldProfile: {
     width: 250,
@@ -47,7 +47,6 @@ export default StyleSheet.create({
     paddingTop: '5%',
   },
   iconBackContainer: {
-    backgroundColor: '#338BF9',
     height: '100%',
   },
   iconBack: {

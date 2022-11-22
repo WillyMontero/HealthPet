@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <ImageBackground
       source={{
-        uri: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fbg1.jpg?alt=media&token=54f4c1ef-3aeb-45c3-878a-63357bd17fbb',
+        uri: 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2Fb2.jpeg?alt=media&token=9b968a3a-0346-452d-b74d-d96af2be8dbd',
       }}
       style={{width: '100%', height: '100%'}}>
       <View style={StylesLogin.sectionContainer}>
