@@ -16,20 +16,20 @@ import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
 
 const NewDate = () => {
+  const {petSelected, setNewDate, dateSelected, editDate} =
+    React.useContext(UserContext);
   const navigation = useNavigation();
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
-    id: '',
-    title: '',
-    reason: '',
-    date: new Date(),
-    medication: '',
-    FK_Pet: '',
+    id: !editDate ? '' : dateSelected.id,
+    title: !editDate ? '' : dateSelected.title,
+    reason: !editDate ? '' : dateSelected.reason,
+    date: !editDate ? new Date() : new Date(dateSelected.date.seconds * 1000),
+    medication: !editDate ? '' : dateSelected.medication,
+    FK_Pet: !editDate ? '' : dateSelected.FK_Pet,
   });
 
-  const {addNewDate} = dateFirebase();
-  const {petSelected, setPetSelected, setNewDate} =
-    React.useContext(UserContext);
+  const {addNewDate, updateDate} = dateFirebase();
   const {title, reason, date, medication} = values;
 
   const onChange = (value: any, name: string) =>
@@ -47,18 +47,33 @@ const NewDate = () => {
   };
 
   const handleSave = async () => {
-    const response = await addNewDate({
-      title,
-      reason,
-      date,
-      medication,
-      FK_Pet: petSelected.id,
-    });
-    Toast.show({
-      type: 'success',
-      text1: 'Agregar nueva cita',
-      text2: '¡Cita agregada!',
-    });
+    !editDate
+      ? addNewDate({
+          title,
+          reason,
+          date,
+          medication,
+          FK_Pet: petSelected.id,
+        })
+      : updateDate({
+          id: dateSelected.id,
+          title,
+          reason,
+          date,
+          medication,
+          FK_Pet: petSelected.id,
+        });
+    !editDate
+      ? Toast.show({
+          type: 'success',
+          text1: 'Agregar nueva cita',
+          text2: '¡Cita agregada!',
+        })
+      : Toast.show({
+          type: 'success',
+          text1: 'Editar cita',
+          text2: '¡Cita editada!',
+        });
     clean();
     setNewDate(true);
     navigation.goBack();

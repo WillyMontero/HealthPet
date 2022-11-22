@@ -26,6 +26,7 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     paddingBottom: 10,
+    maxWidth: 140,
   },
   containerImageItem: {
     width: 100,
