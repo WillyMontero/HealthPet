@@ -18,10 +18,10 @@ import Date from '../views/pets/components/Date';
 import NewDate from '../views/pets/components/NewDate';
 
 //Screen names
-const homeName = 'Home';
-const petsName = 'Pets';
-const mapsName = 'Maps';
-const profileName = 'Profile';
+const homeName = 'Inicio';
+const petsName = 'Mascotas';
+const mapsName = 'Mapa';
+const profileName = 'Perfil';
 
 const Tab = createBottomTabNavigator();
 
