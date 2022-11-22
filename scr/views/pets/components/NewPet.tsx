@@ -22,29 +22,30 @@ import storage from '@react-native-firebase/storage';
 import {User as userFirebase} from '../../../firebase';
 
 const NewPet = () => {
+  const {user, setNewPet, editPet, petSelected} = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({
-    name: '',
-    typePet: '',
-    race: '',
-    bornDate: new Date(),
-    weight: '',
-    bloodType: '',
-    imageProfile:
-      'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
+    name: !editPet ? '' : petSelected.name,
+    typePet: !editPet ? '' : petSelected.petType,
+    race: !editPet ? '' : petSelected.race,
+    bornDate: !editPet
+      ? new Date()
+      : new Date(petSelected.bornDate.seconds * 1000),
+    weight: !editPet ? '' : petSelected.weight,
+    bloodType: !editPet ? '' : petSelected.bloodType,
+    imageProfile: !editPet
+      ? 'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5'
+      : petSelected.imageProfile,
   });
 
   const navigation = useNavigation();
-  const {user, setNewPet} = useContext(UserContext);
-  const {addNewPet} = petFirebase();
-  const [photoURL, setPhotoURL] = useState<any>(
-    'https://firebasestorage.googleapis.com/v0/b/health-pet-b5aac.appspot.com/o/images%2FpetProfile.jpg?alt=media&token=f78c4e98-3dbb-40ca-a7c6-087407f251b5',
-  );
+  const {addNewPet, updatePet} = petFirebase();
   const [photoToUpload, setPhotoToUpload] = useState<any>(null);
   const {addAlbumImage} = userFirebase();
 
   const {name, bloodType, bornDate, race, typePet, weight, imageProfile} =
     values;
+  const [photoURL, setPhotoURL] = useState<any>(imageProfile);
 
   const onChange = (value: any, name: string) =>
     setValues(prev => ({...prev, [name]: value}));
@@ -101,36 +102,66 @@ const NewPet = () => {
     }
     if (photoToUpload !== null) {
       await uploadImage().then(value => {
-        const response = addNewPet({
-          bloodType,
-          FK_User: user?.id,
-          name,
-          weight,
-          bornDate,
-          petType: typePet,
-          race,
-          imageProfile: value,
-        });
+        !editPet
+          ? addNewPet({
+              bloodType,
+              FK_User: user?.id,
+              name,
+              weight,
+              bornDate,
+              petType: typePet,
+              race,
+              imageProfile: value,
+            })
+          : updatePet({
+              id: petSelected.id,
+              bloodType,
+              FK_User: user?.id,
+              name,
+              weight,
+              bornDate,
+              petType: typePet,
+              race,
+              imageProfile: value,
+            });
         //add image url to album
         addAlbumImage(user.id, value);
       });
     } else {
-      const response = addNewPet({
-        bloodType,
-        FK_User: user?.id,
-        name,
-        weight,
-        bornDate,
-        petType: typePet,
-        race,
-        imageProfile,
-      });
+      !editPet
+        ? addNewPet({
+            bloodType,
+            FK_User: user?.id,
+            name,
+            weight,
+            bornDate,
+            petType: typePet,
+            race,
+            imageProfile,
+          })
+        : updatePet({
+            id: petSelected.id,
+            bloodType,
+            FK_User: user?.id,
+            name,
+            weight,
+            bornDate,
+            petType: typePet,
+            race,
+            imageProfile,
+          });
     }
-    Toast.show({
-      type: 'success',
-      text1: 'Agregar nueva mascota',
-      text2: '¡Mascota agregada!',
-    });
+    !editPet
+      ? Toast.show({
+          type: 'success',
+          text1: 'Agregar nueva mascota',
+          text2: '¡Mascota agregada!',
+        })
+      : Toast.show({
+          type: 'success',
+          text1: 'Editar mascota',
+          text2: '¡Mascota editada!',
+        });
     clean();
     setNewPet(true);
     navigation.goBack();
@@ -140,6 +171,7 @@ const NewPet = () => {
     try {
       const result = await launchImageLibrary({mediaType: 'photo'});
       setPhotoURL(result.assets[0].uri);
+      onChange(result.assets[0].uri, 'imageProfile');
       setPhotoToUpload(result.assets[0]);
       hideMenu();
     } catch (error) {
@@ -151,6 +183,7 @@ const NewPet = () => {
     try {
       const result = await launchCamera({mediaType: 'photo'});
       setPhotoURL(result.assets[0].uri);
+      onChange(result.assets[0].uri, 'imageProfile');
       setPhotoToUpload(result.assets[0]);
       hideMenu();
     } catch (error) {

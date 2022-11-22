@@ -14,7 +14,8 @@ import {Date as dateFirebase} from '../../../firebase';
 
 const Dates = () => {
   const navigation = useNavigation();
-  const {petSelected, newDate, setNewDate} = React.useContext(UserContext);
+  const {petSelected, newDate, setNewDate, setDateSelected, setEditDate} =
+    React.useContext(UserContext);
   const {getAllDates} = dateFirebase();
   const [DATA, setData] = React.useState([
     {
@@ -51,7 +52,11 @@ const Dates = () => {
         <View style={StyleDate.containerDates}>
           <TouchableOpacity
             style={StyleDate.btnDates}
-            onPress={() => console.log('ver')}>
+            onPress={() => {
+              setEditDate(true);
+              setDateSelected(info);
+              navigation.navigate('dateAdd', {screen: 'NewDate'});
+            }}>
             <Text style={StyleDate.btnAddText}>Ver</Text>
           </TouchableOpacity>
           <TouchableOpacity

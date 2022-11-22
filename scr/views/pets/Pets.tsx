@@ -14,7 +14,7 @@ import {Pet as petFirebase} from '../../firebase';
 import {UserContext} from '../../context/UserContext';
 
 const Pets = () => {
-  const {user, newPet, setNewPet, setPetSelected, setNewDate} =
+  const {user, newPet, setNewPet, setPetSelected, setNewDate, setEditPet} =
     React.useContext(UserContext);
   const navigation = useNavigation();
   const {getPets} = petFirebase();
@@ -68,7 +68,11 @@ const Pets = () => {
         <View style={stylesPet.containerEditRemove}>
           <TouchableOpacity
             style={stylesPet.btnEditRemove}
-            onPress={() => console.log('asd')}>
+            onPress={() => {
+              setEditPet(true);
+              setPetSelected(info);
+              navigation.navigate('petsAdd', {screen: 'NewPet'});
+            }}>
             <Edit stroke="white" fill="transparent" />
           </TouchableOpacity>
           <TouchableOpacity

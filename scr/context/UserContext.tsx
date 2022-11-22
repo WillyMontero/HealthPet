@@ -21,13 +21,26 @@ interface IUser {
     id: string;
     FK_User: string;
     bloodType: string;
-    bornDate: Date;
+    bornDate: any;
     name: string;
     petType: string;
     race: string;
     weight: string;
     imageProfile: string;
   };
+  editPet: boolean;
+  setEditPet: any;
+  setDateSelected: any;
+  dateSelected: {
+    id: string;
+    FK_Pet: string;
+    date: any;
+    medication: string;
+    reason: string;
+    title: string;
+  };
+  editDate: boolean;
+  setEditDate: any;
 }
 
 const initialState = {
@@ -57,6 +70,19 @@ const initialState = {
     weight: '',
     imageProfile: '',
   },
+  setDateSelected: null,
+  dateSelected: {
+    id: '',
+    FK_Pet: '',
+    date: new Date(),
+    medication: '',
+    reason: '',
+    title: '',
+  },
+  editPet: false,
+  setEditPet: null,
+  editDate: false,
+  setEditDate: null,
 };
 
 const UserContext = createContext<IUser>(initialState);
@@ -71,6 +97,8 @@ const UserProvider = (props: any) => {
     password: '',
   });
   const [newPet, setNewPet] = useState(true);
+  const [editPet, setEditPet] = useState(false);
+  const [editDate, setEditDate] = useState(false);
   const [newDate, setNewDate] = useState(true);
   const [petSelected, setPetSelected] = useState({
     id: '',
@@ -83,6 +111,14 @@ const UserProvider = (props: any) => {
     weight: '',
     imageProfile: '',
   });
+  const [dateSelected, setDateSelected] = useState({
+    id: '',
+    FK_Pet: '',
+    date: new Date(),
+    medication: '',
+    reason: '',
+    title: '',
+  });
   const values = {
     isLogged,
     setIsLogged,
@@ -94,6 +130,12 @@ const UserProvider = (props: any) => {
     setPetSelected,
     newDate,
     setNewDate,
+    editPet,
+    setEditPet,
+    dateSelected,
+    setDateSelected,
+    editDate,
+    setEditDate,
   };
 
   return (
